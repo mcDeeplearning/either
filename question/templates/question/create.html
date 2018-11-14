@@ -2,7 +2,9 @@
 {%block body%}
     <form action="{% url 'question:create' %}" method="post">
         {% csrf_token %}
-        {{form}}
+        <table>
+        {{form.as_table}}
+        </table>
         <input type="submit"/>
     </form>
 {%endblock%}
