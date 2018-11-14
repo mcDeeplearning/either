@@ -45,7 +45,9 @@ def comment_create(request,id):
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.save()
+            comment = form.save(commit=False)
+            comment.question = Question.objects.get(id=id)
+            comment.save()
             return redirect(resolve_url('question:detail',id))
         pass
     else:
