@@ -60,3 +60,18 @@ def comment_create(request,id):
     else:
         return redirect(resolve_url('question:detail',id))
     return render(request,'question/detail.html',{'form':form})
+    
+def update(request,id):
+    question = Question.objects.get(id=id)
+    
+    if request.method=='POST':
+        # 업데이트로직
+        form = QuestionForm(request.POST, instance=question)
+        if form.is_valid():
+            form.save()
+            return redirect(resolve_url('question:detail',id ))
+    else:
+        # 폼 보여주기
+        form = QuestionForm(instance=question)
+    return render(request, 'question/update.html',{'form':form, 'question':question})
+    
