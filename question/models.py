@@ -14,3 +14,6 @@ class Comment(models.Model):
     answer_list = [['A','left'],['B','right']]
     answer = models.CharField(max_length=100,choices=answer_list )
     content = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.content

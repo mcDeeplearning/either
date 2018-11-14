@@ -2,12 +2,26 @@
 
 {%block body%}
 
-    {{question.title}}
-    {{question.answerA}}
-    {{question.answerB}}
+    <h1>{{question.title}}</h1>
+    <h3>{{question.answerA}} : {{A|length}} VS {{question.answerB}} : {{B|length}}</h3>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: {{A_per}}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">{{A_per|floatformat}}%</div>
+      <div class="progress-bar bg-success" role="progressbar" style="width: {{B_per}}%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{B_per|floatformat}}%</div>
+    </div>
+                        <!--/quetions/1/comment/create-->
+    <form action="{% url 'question:comment_create' question.id  %}" method="post">
+        {%csrf_token%}
+        <table>
+            {{form.as_table}}
+        </table>
+        <input type="submit">
+    </form>
     
-    <table>
-        {{form.as_table}}
-    </table>
+    <!--댓글을 출력-->
+    
+    {% for comment in question.comment_set.all %}
+        <h5>{{comment.answer}}</h5>
+        <p>{{comment.content}}</p>
+    {%endfor%}
 
 {%endblock%}
