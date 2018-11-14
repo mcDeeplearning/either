@@ -2,4 +2,8 @@
 
 {%block body%}
     <h1>여기는 리스트 입니다.</h1>
+    {% for q in questions%}
+        <h1>{{q.title}}</h1>
+        <a href="{% url 'question:detail' id=q.id %}">글보기</a>
+    {% endfor %}
 {%endblock%}

@@ -8,3 +8,9 @@ class Question(models.Model):
     
     def __str__(self):
         return self.title
+        
+class Comment(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer_list = [['A','left'],['B','right']]
+    answer = models.CharField(max_length=100,choices=answer_list )
+    content = models.CharField(max_length=100)

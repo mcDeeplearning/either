@@ -1,0 +1,13 @@
+{%extends 'question/base.html'%}
+
+{%block body%}
+
+    {{question.title}}
+    {{question.answerA}}
+    {{question.answerB}}
+    
+    <table>
+        {{form.as_table}}
+    </table>
+
+{%endblock%}
