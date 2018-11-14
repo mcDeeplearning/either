@@ -1,11 +1,18 @@
 from django.shortcuts import render, resolve_url, redirect
 from question.forms import QuestionForm, CommentForm
 from .models import Question
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 # Create your views here.
 def list(request):
     # 전체 목록을 보여주는 코드
-    questions = Question.objects.all()
+    questions_list = Question.objects.all()
+    paginator = Paginator(questions_list, 5) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    questions = paginator.get_page(page)
+    # return render(request, 'list.html', {'contacts': contacts})
+    
     return render(request,'question/list.html',{'questions':questions})
     
 def create(request):
