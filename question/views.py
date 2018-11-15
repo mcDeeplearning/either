@@ -25,7 +25,7 @@ def create(request):
     else:
         # 사용자에게 폼을 전달
         form = QuestionForm()
-    return render(request,'question/create.html',{'form':form})
+    # return render(request,'question/create.html',{'form':form})
     
 def detail(request,id):
     question = Question.objects.get(id=id)
