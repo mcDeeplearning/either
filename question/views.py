@@ -2,6 +2,7 @@ from django.shortcuts import render, resolve_url, redirect
 from question.forms import QuestionForm, CommentForm
 from .models import Question
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def list(request):
@@ -15,18 +16,22 @@ def list(request):
     
     return render(request,'question/list.html',{'questions':questions})
     
+@login_required
 def create(request):
     if request.method == "POST":
         # 데이터를 저장
         form = QuestionForm(request.POST)
         if form.is_valid():
-            form.save()
+            question = form.save(commit=False)
+            question.user = request.user
+            question.save()
             return redirect(resolve_url('question:list'))
     else:
         # 사용자에게 폼을 전달
         form = QuestionForm()
-    # return render(request,'question/create.html',{'form':form})
+    return render(request,'question/create.html',{'form':form})
     
+@login_required
 def detail(request,id):
     question = Question.objects.get(id=id)
     form = CommentForm(initial={'question':id})

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
@@ -20,4 +20,17 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect('question:list')
-    pass
+
+def signup(request):
+    if request.method=="POST":
+        # 사용자를 등록하는 로직
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('question:list')
+        
+    else: 
+        # 정보를 입력하는 폼을 전달
+        form = UserCreationForm()
+    return render(request,'account/signup.html',{'form':form})
